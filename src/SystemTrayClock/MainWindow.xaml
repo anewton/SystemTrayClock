@@ -1,0 +1,92 @@
+﻿<Window 
+    x:Class="SystemTrayClock.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:SystemTrayClock"
+    mc:Ignorable="d"
+    WindowState="{Binding WindowState}"
+    Title="System Tray Clock" 
+    Height="110" 
+    Width="160" 
+    ResizeMode="NoResize" 
+    WindowStartupLocation="CenterOwner" 
+    WindowStyle="None"
+    ShowInTaskbar="{Binding ShowInTaskbar}"
+    Topmost="True"
+    Background="Transparent">
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Border 
+            CornerRadius="0" 
+            Background="Black"
+            BorderBrush="{Binding Source={x:Static SystemParameters.WindowGlassBrush}}"
+             BorderThickness="2" />
+        <local:NotifyIconHelper  OpacityMask="Black">
+            <bh:Interaction.Triggers>
+                <bh:EventTrigger EventName="OpenSelected">
+                    <bh:InvokeCommandAction Command="{Binding NotifyIconOpenCommand}"/>
+                </bh:EventTrigger>
+                <bh:EventTrigger EventName="ExitSelected">
+                    <bh:InvokeCommandAction Command="{Binding NotifyIconExitCommand}"/>
+                </bh:EventTrigger>
+            </bh:Interaction.Triggers>
+        </local:NotifyIconHelper>
+        <Button 
+            Style="{DynamicResource TransparentButtonStyle}"
+            Background="{Binding Source={x:Static SystemParameters.WindowGlassBrush}}"
+            Opacity=".02"
+            Command="{Binding CloseCommand}" />
+        <StackPanel 
+            Margin="0,-10,0,0"
+            IsHitTestVisible="False"
+            Orientation="Vertical"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+            <Label  
+                HorizontalAlignment="Center" 
+                Name="timeLabel"
+                FontSize="16" 
+                FontFamily="Segoe UI Variable" 
+                FontStyle="Normal"
+                TextOptions.TextRenderingMode="Aliased"
+                Content="{Binding CurrentTime}"
+                d:Content="6:49:00 PM"
+                IsHitTestVisible="False"
+                Foreground="{DynamicResource ElectricBlue}"/>
+            <Label  
+                Margin="0,-10,0,0"
+                HorizontalAlignment="Center" 
+                Name="timeZoneLabel"
+                FontSize="12" 
+                FontFamily="Segoe UI Variable" 
+                FontStyle="Normal"
+                TextOptions.TextRenderingMode="Aliased"
+                Content="{Binding CurrentTimeZone}"
+                d:Content="Pacific Standard Time"
+                IsHitTestVisible="False"
+                Foreground="{DynamicResource ElectricBlue}"/>
+            <Grid 
+                Background="Transparent" 
+                IsHitTestVisible="False"
+                Height="60"
+                Width="60">
+                <local:MoonDisk 
+                    d:CurrentDate="2/26/2022"  
+                    CurrentDate="{Binding CurrentDate}" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+    <bh:Interaction.Triggers>
+        <bh:EventTrigger EventName="Loaded">
+            <bh:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </bh:EventTrigger>
+        <bh:EventTrigger EventName="Closing">
+            <bh:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
+        </bh:EventTrigger>
+    </bh:Interaction.Triggers>
+</Window>

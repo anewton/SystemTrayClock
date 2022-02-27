@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+	  <UseWindowsForms>true</UseWindowsForms>
+	  <ApplicationIcon>clock.ico</ApplicationIcon>
+	  <ProductName>System Tray Clock</ProductName>
+	  <Title>System Tray Clock</Title>
+	  <Authors>Allen Newton</Authors>
+	  <Company>$(Authors)</Company>
+	  <Product>System Tray Clock</Product>
+	  <Description>A clock to display from the system tray with current time and Moon phase</Description>
+	  <Copyright>Copyright © 2011-2022 Allen Newton. All rights reserved.</Copyright>
+	  <PackageProjectUrl>https://github.com/anewton/SystemTrayClock</PackageProjectUrl>
+	  <PackageIcon>clock.png</PackageIcon>
+	  <RepositoryUrl>https://github.com/anewton/SystemTrayClock</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <AssemblyName>System Tray Clock</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="moonmap.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="moonmap.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DesignAssets\clock.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
