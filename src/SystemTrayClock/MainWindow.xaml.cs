@@ -32,6 +32,14 @@ namespace SystemTrayClock
             {
                 Show();
                 WindowState = WindowState.Normal;
+                var desktopWorkingArea = SystemParameters.WorkArea;
+                Left = (desktopWorkingArea.Right - ActualWidth) - 20;
+                Top = (desktopWorkingArea.Bottom - ActualHeight) - 20;
+                if (DataContext is MainWindowViewModel mainWindowVM)
+                {
+                    mainWindowVM.ShowCurrentTime();
+                    mainWindowVM.InitTimer();
+                }
             }
             Activate();
             Topmost = true;

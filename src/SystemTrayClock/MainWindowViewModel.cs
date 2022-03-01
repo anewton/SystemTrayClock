@@ -96,8 +96,13 @@ namespace SystemTrayClock
             StopTimer();
         }
 
-        private void InitTimer()
+        public void InitTimer()
         {
+            if (_timer != null && _timer.IsEnabled)
+            {
+                _timer.Stop();
+                _timer = null;
+            }
             _timer = new();
             _timer.Tick += new EventHandler(TimerTick);
             _timer.Interval = new TimeSpan(0, 0, 1);
@@ -118,7 +123,7 @@ namespace SystemTrayClock
             ShowCurrentTime();
         }
 
-        private void ShowCurrentTime()
+        public void ShowCurrentTime()
         {
             Application.Current.Dispatcher.BeginInvoke(() =>
             {
