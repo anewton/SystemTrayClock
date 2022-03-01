@@ -19,6 +19,7 @@ namespace SystemTrayClock
             CloseCommand = new RelayCommand(Close);
             NotifyIconOpenCommand = new RelayCommand(Open);
             NotifyIconExitCommand = new RelayCommand(() => { Application.Current.Shutdown(); });
+            App.WindowsThemeChanged += WindowsThemeChanged;
         }
 
         public ICommand LoadedCommand { get; }
@@ -27,6 +28,26 @@ namespace SystemTrayClock
         public ICommand NotifyCommand { get; }
         public ICommand NotifyIconOpenCommand { get; }
         public ICommand NotifyIconExitCommand { get; }
+
+        public Action ToggleMainWindowState;
+
+        public void WindowsThemeChanged(object sender, ThemeChangedArgument e)
+        {
+
+        }
+
+
+        public MainWindowState MainWindowState
+        {
+            get => _mainWindowState;
+            set
+            {
+                ShowInTaskbar = true;
+                SetProperty(ref _mainWindowState, value);
+                ShowInTaskbar = value != MainWindowState.Closed;
+            }
+        }
+        private MainWindowState _mainWindowState;
 
         public WindowState WindowState
         {
@@ -67,10 +88,12 @@ namespace SystemTrayClock
             set { SetProperty(ref _currentDate, value); }
         }
         private DateTime _currentDate;
+        
 
         private void Loaded()
         {
             WindowState = WindowState.Minimized;
+            MainWindowState = MainWindowState.Closed;
             ShowCurrentTime();
             InitTimer();
         }
@@ -79,12 +102,14 @@ namespace SystemTrayClock
         {
             InitTimer();
             WindowState = WindowState.Normal;
+            ToggleMainWindowState?.Invoke();
         }
 
         private void Close()
         {
             WindowState = WindowState.Minimized;
             StopTimer();
+            ToggleMainWindowState?.Invoke();
         }
 
         private void Closing(CancelEventArgs e)
@@ -93,6 +118,7 @@ namespace SystemTrayClock
                 return;
             e.Cancel = true;
             WindowState = WindowState.Minimized;
+            MainWindowState = MainWindowState.Closed;
             StopTimer();
         }
 

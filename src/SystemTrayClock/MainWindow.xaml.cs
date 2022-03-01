@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media.Animation;
 
 namespace SystemTrayClock
 {
@@ -15,9 +16,11 @@ namespace SystemTrayClock
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var desktopWorkingArea = SystemParameters.WorkArea;
-            Left = (desktopWorkingArea.Right - ActualWidth) - 20;
-            Top = (desktopWorkingArea.Bottom - ActualHeight) - 20;
+            if (DataContext is MainWindowViewModel mainWindowVM)
+            {
+                mainWindowVM.ToggleMainWindowState -= ToggleMainWindowState;
+                mainWindowVM.ToggleMainWindowState += ToggleMainWindowState;
+            }
 
             //To hide the window in the alt-tab apps when minimized
             WindowInteropHelper wndHelper = new(this);
@@ -26,15 +29,61 @@ namespace SystemTrayClock
             SetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE, (IntPtr)exStyle);
         }
 
+        public void ToggleMainWindowState()
+        {
+            if (DataContext is MainWindowViewModel mainWindowVM)
+            {
+                switch (mainWindowVM.MainWindowState)
+                {
+                    case MainWindowState.Closed:
+                        OnOpened();
+                        mainWindowVM.MainWindowState = MainWindowState.Open;
+                        break;
+                    case MainWindowState.Open:
+                        OnClosed();
+                        mainWindowVM.MainWindowState = MainWindowState.Closed;
+                        break;
+                }
+            }
+        }
+
+        public void OnOpened()
+        {
+            var margins = 2;
+            var desktopWorkingArea = SystemParameters.WorkArea;
+            Top = (desktopWorkingArea.Bottom - ActualHeight) - margins;
+            var showMainWindowStoryboard = FindResource("showMainWindowStoryboard") as Storyboard;
+            if (showMainWindowStoryboard.Children[0] is DoubleAnimation doubleAnimation)
+            {
+                doubleAnimation.From = desktopWorkingArea.Right;
+                doubleAnimation.To = (desktopWorkingArea.Right - ActualWidth) - margins;
+            }
+            showMainWindowStoryboard.Begin();
+
+            
+        }
+
+        public void OnClosed()
+        {
+            var margins = 2;
+            var desktopWorkingArea = SystemParameters.WorkArea;
+            Top = (desktopWorkingArea.Bottom - ActualHeight) - margins;
+            var hideMainWindowStoryboard = FindResource("hideMainWindowStoryboard") as Storyboard;
+            if (hideMainWindowStoryboard.Children[0] is DoubleAnimation doubleAnimation)
+            {
+                doubleAnimation.From = Left;
+                doubleAnimation.To = desktopWorkingArea.Right;
+            }
+            hideMainWindowStoryboard.Begin();
+        }
+
         public void BringToForeground()
         {
             if (WindowState == WindowState.Minimized || Visibility == Visibility.Hidden)
             {
                 Show();
                 WindowState = WindowState.Normal;
-                var desktopWorkingArea = SystemParameters.WorkArea;
-                Left = (desktopWorkingArea.Right - ActualWidth) - 20;
-                Top = (desktopWorkingArea.Bottom - ActualHeight) - 20;
+                OnOpened();
                 if (DataContext is MainWindowViewModel mainWindowVM)
                 {
                     mainWindowVM.ShowCurrentTime();

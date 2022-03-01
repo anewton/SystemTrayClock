@@ -1,5 +1,6 @@
 ﻿<Window 
     x:Class="SystemTrayClock.MainWindow"
+    x:Name="mainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,23 +10,71 @@
     mc:Ignorable="d"
     WindowState="{Binding WindowState}"
     Title="System Tray Clock" 
-    Height="110" 
-    Width="160" 
+    Height="120" 
+    Width="160"
+    Left="8000"
+    Foreground="{DynamicResource ForegroundColor}"
     ResizeMode="NoResize" 
     WindowStartupLocation="CenterOwner" 
     WindowStyle="None"
     ShowInTaskbar="{Binding ShowInTaskbar}"
     Topmost="True"
-    Background="Transparent">
+    Background="Transparent"
+    AllowsTransparency="True">
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
-    <Grid>
+    <Window.Resources>
+        <Storyboard x:Key="showMainWindowStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="mainWindow"
+                Storyboard.TargetProperty="(Window.Left)"
+                From="8000"
+                To="0"
+                Duration="0:0:0.200">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase EasingMode="EaseIn" Power="2"  />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="hideMainWindowStoryboard">
+            <DoubleAnimation 
+                Storyboard.TargetName="mainWindow"
+                Storyboard.TargetProperty="(Window.Left)"
+                From="0"
+                To="8000"
+                Duration="0:0:0.200">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase EasingMode="EaseIn" Power="2"  />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+    <Grid x:Name="clockContent" Margin="0,0,10,10">
         <Border 
-            CornerRadius="0" 
-            Background="Black"
-            BorderBrush="{Binding Source={x:Static SystemParameters.WindowGlassBrush}}"
-             BorderThickness="2" />
+            CornerRadius="6"
+            Background="{DynamicResource MainBackgroundColorBrush}"
+            BorderThickness="1">
+            <Border.Effect>
+                <DropShadowEffect 
+                        ShadowDepth="4"
+                        Color="{DynamicResource MainBackgroundColor}"
+                        Opacity=".4"
+                        BlurRadius="8"/>
+            </Border.Effect>
+        </Border>
+        <Border 
+            CornerRadius="6"
+            Opacity=".6"
+            Background="{DynamicResource MainBackgroundColorBrush}"
+            BorderThickness="1" />
+        <Border 
+            CornerRadius="6" 
+            Background="Transparent"
+            BorderBrush="{DynamicResource MainBorderColorBrush}"
+            BorderThickness="1" />
+       
+
         <local:NotifyIconHelper  OpacityMask="Black">
             <bh:Interaction.Triggers>
                 <bh:EventTrigger EventName="OpenSelected">
@@ -57,7 +106,7 @@
                 Content="{Binding CurrentTime}"
                 d:Content="6:49:00 PM"
                 IsHitTestVisible="False"
-                Foreground="{DynamicResource ElectricBlue}"/>
+                Foreground="{DynamicResource ForegroundColor}"/>
             <Label  
                 Margin="0,-10,0,0"
                 HorizontalAlignment="Center" 
@@ -69,18 +118,19 @@
                 Content="{Binding CurrentTimeZone}"
                 d:Content="Pacific Standard Time"
                 IsHitTestVisible="False"
-                Foreground="{DynamicResource ElectricBlue}"/>
+                Foreground="{DynamicResource ForegroundColor}"/>
             <Grid 
                 Background="Transparent" 
                 IsHitTestVisible="False"
                 Height="60"
                 Width="60">
                 <local:MoonDisk 
-                    d:CurrentDate="2/26/2022"  
+                    d:CurrentDate="3/1/2022"  
                     CurrentDate="{Binding CurrentDate}" />
             </Grid>
         </StackPanel>
     </Grid>
+    
     <bh:Interaction.Triggers>
         <bh:EventTrigger EventName="Loaded">
             <bh:InvokeCommandAction Command="{Binding LoadedCommand}"/>

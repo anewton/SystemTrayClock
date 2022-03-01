@@ -8,11 +8,14 @@ namespace SystemTrayClock
     {
         private const string _uniqueEventName = "{18B16C61-D921-4D44-98D4-5F0FEDCD9FCC}";
         private const string _uniqueMutexName = "{86A1841E-C5F7-457B-9470-679663AE4BC6}";
+        private readonly ThemeHelper _themeHelper = new ThemeHelper();
+        internal static Action<object, ThemeChangedArgument> WindowsThemeChanged;
         private EventWaitHandle _eventWaitHandle;
         private Mutex _mutex;
 
         private void AppOnStartup(object sender, StartupEventArgs e)
         {
+            _themeHelper.StartThemeWatching();
             _mutex = new Mutex(true, _uniqueMutexName, out bool isOwned);
             _eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, _uniqueEventName);
 
