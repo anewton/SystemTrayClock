@@ -1,4 +1,4 @@
-echo off
+rem echo off
 set devenvPath=%1
 set slnPath=%2
 set projPath=%3
