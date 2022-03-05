@@ -42,7 +42,7 @@ jobs:
     - name: Build the installer
       shell: cmd
       run: |
-        devenv /Project "%Setup_Project_Path%" /Build "%Configuration%" /Out "devenvLog.txt"
+        "%VSBUILD_PATH%" /Project "%Setup_Project_Path%" /Build "%Configuration%" /Out "devenvLog.txt" > nul if ERRORLEVEL 1 echo Error %ERRORLEVEL% else echo 0
 
     # Upload the build artifacts
     - name: Upload build artifacts
