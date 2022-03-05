@@ -52,14 +52,14 @@ jobs:
       run: |
         outOfProcFix.bat "%VS_IDE_PATH%"
         
-    - name: Build the installer
-      shell: cmd
-      run: |
-        cmd /c buildInstaller.bat "%VSBUILD_PATH%" "%Solution_Name%" "%Setup_Project_Path%" "%Configuration%"
+    #- name: Build the installer
+    #  shell: cmd
+    #  run: |
+    #    cmd /c buildInstaller.bat "%VSBUILD_PATH%" "%Solution_Name%" "%Setup_Project_Path%" "%Configuration%"
 
     # Upload the build artifacts
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: artifact-SystemTrayClockInstaller
-        path: $env:Setup_Project_Folder_Path\$env:Configuration
+    #- name: Upload build artifacts
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: artifact-SystemTrayClockInstaller
+    #    path: $env:Setup_Project_Folder_Path\$env:Configuration
