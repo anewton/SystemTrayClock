@@ -57,8 +57,7 @@ jobs:
 
     env:
       Solution_Name: SystemTrayClock.sln
-      Setup_Project_Directory: src/SystemTrayClockInstaller
-      Setup_Project_Path: SystemTrayClockInstaller.vdproj
+      Setup_Project_Path: src\SystemTrayClockInstaller\SystemTrayClockInstaller.vdproj
 
     steps:
     - name: Checkout
@@ -84,7 +83,7 @@ jobs:
         
     # Build the installer
     - name: Build the installer
-      run: msbuild $env:Setup_Project_Directory/$env:Setup_Project_Path /v:diag /t:Rebuild /p:Configuration=$env:Configuration
+      run: msbuild $env:Setup_Project_Path /v:diag /t:Rebuild /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
@@ -93,4 +92,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: artifact-SystemTrayClockInstaller
-        path: $env:Setup_Project_Directory/Release
+        path: $env:Setup_Project_Path\Release
