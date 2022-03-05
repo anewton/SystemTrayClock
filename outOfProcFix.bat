@@ -2,6 +2,8 @@ set vsIDEPath=%1
 SET current_path="%CD%"
 ECHO Setting the current path to the DisableOutOfProcBuild.exe installation folder.
 CD "%vsIDEPath%\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild"
+SET new_path="%CD%"
+ECHO %new_path%
 ECHO:
 START /d DisableOutOfProcBuild.exe
 ECHO: & ECHO Revert the previous current directory.
