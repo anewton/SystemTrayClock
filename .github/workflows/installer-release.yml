@@ -12,7 +12,8 @@ jobs:
       matrix:
         configuration: [Release]
 
-    runs-on: windows-2019
+    runs-on: windows-latest
+    #runs-on: windows-2019
 
     env:
       Configuration: Release
@@ -20,7 +21,8 @@ jobs:
       Project_Path: src\SystemTrayClock\SystemTrayClock.csproj
       Setup_Project_Path: src\SystemTrayClockInstaller\SystemTrayClockInstaller.vdproj
       Setup_Project_Folder_Path: src\SystemTrayClockInstaller\
-      VSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.com
+      VSBUILD_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com
+      #VSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.com
 
     steps:
     - name: Checkout
@@ -39,10 +41,15 @@ jobs:
       run: dotnet restore "%Project_Path%"
         
     # Build the installer
+    #- name: Build the installer
+    #  shell: cmd
+    #  run: |
+    #    "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%"
+        
     - name: Build the installer
       shell: cmd
       run: |
-        "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%"
+        cmd /c buildInstaller.bat "%VSBUILD_PATH%" "%Solution_Name%" "%Setup_Project_Path%" "%Configuration%"
 
     # Upload the build artifacts
     - name: Upload build artifacts
