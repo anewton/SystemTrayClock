@@ -58,7 +58,7 @@ jobs:
     env:
       Solution_Name: SystemTrayClock.sln
       Setup_Project_Path: src\SystemTrayClockInstaller\SystemTrayClockInstaller.vdproj
-      VSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.com
+      VSBUILD_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com
 
     steps:
     - name: Checkout
