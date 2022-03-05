@@ -85,7 +85,8 @@ jobs:
     # Build the installer
     - name: Build the installer
       shell: cmd
-      run: $env:VSBUILD_PATH $env:Setup_Project_Path /build $env:Configuration
+      run: |
+        "%VSBUILD_PATH%" "%Setup_Project_Path%" /build release
       env:
         Configuration: ${{ matrix.configuration }}
 
