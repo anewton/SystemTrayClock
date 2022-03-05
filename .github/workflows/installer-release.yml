@@ -22,6 +22,7 @@ jobs:
       Setup_Project_Path: src\SystemTrayClockInstaller\SystemTrayClockInstaller.vdproj
       Setup_Project_Folder_Path: src\SystemTrayClockInstaller\
       VSBUILD_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com
+      VS_IDE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
       #VSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.com
 
     steps:
@@ -45,6 +46,11 @@ jobs:
     #  shell: cmd
     #  run: |
     #    "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%"
+    
+    - name: DisableOutOfProcBuild
+      shell: cmd
+      run: |
+        cmd /c outOfProcFix.bat "%VS_IDE_PATH%"
         
     - name: Build the installer
       shell: cmd
