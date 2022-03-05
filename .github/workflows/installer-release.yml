@@ -42,7 +42,7 @@ jobs:
     - name: Build the installer
       shell: cmd
       run: |
-        "%VSBUILD_PATH%" "%Setup_Project_Path%" /build "%Configuration%"
+        devenv /Project "%Setup_Project_Path%" /Build "%Configuration%" /Out "devenvLog.txt"
 
     # Upload the build artifacts
     - name: Upload build artifacts
