@@ -50,7 +50,7 @@ jobs:
     - name: DisableOutOfProcBuild
       shell: cmd
       run: |
-        cmd /c outOfProcFix.bat "%VS_IDE_PATH%"
+        outOfProcFix.bat "%VS_IDE_PATH%"
         
     - name: Build the installer
       shell: cmd
