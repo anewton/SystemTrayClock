@@ -57,7 +57,7 @@ jobs:
 
     env:
       Solution_Name: SystemTrayClock.sln
-      Setup_Project_Directory: ./src/SystemTrayClockInstaller
+      Setup_Project_Directory: src/SystemTrayClockInstaller
       Setup_Project_Path: SystemTrayClockInstaller.vdproj
 
     steps:
