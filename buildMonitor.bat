@@ -11,9 +11,10 @@ FOR /F "tokens=*" %%a in ('%command% ^|findstr /n $') do (
   setlocal EnableDelayedExpansion
   set "line=!line:*:=!"
   echo(!line!
-  echo %%(!line!|find "2 succeeded, 0 failed, 0 skipped" >nul
+  echo %%(!line!|find "2 succeeded" >nul
   if NOT errorlevel 1 (
 	  rem taskkill /f /im "devenv.com"
 	  exit 0
   )
   endlocal
+)
