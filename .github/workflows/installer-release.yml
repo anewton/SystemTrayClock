@@ -24,19 +24,19 @@ jobs:
       VS_IDE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
 
     steps:
-    #- name: Checkout
-    #  uses: actions/checkout@v2
-    #  with:
-    #    fetch-depth: 0
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-    #- name: Install .NET 6
-    #  uses: actions/setup-dotnet@v1
-    #  with:
-    #    dotnet-version: 6.0.x
+    - name: Install .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
           
-    #- name: dotnet restore
-    #  shell: cmd
-    #  run: dotnet restore "%Project_Path%"
+    - name: dotnet restore
+      shell: cmd
+      run: dotnet restore "%Project_Path%"
       
     #- name: Set up Visual Studio shell
     #  uses: egor-tensin/vs-shell@v2
@@ -49,16 +49,14 @@ jobs:
         pushd "%VS_IDE_PATH%"
         "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe
         popd
-
-    # Build the installer
+        
     - name: Build the installer
       shell: cmd
       run: |
-        cmd /c buildInstaller.bat "%VSBUILD_PATH%" "%Solution_Name%" "%Setup_Project_Path%" "%Configuration%"
+        "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Rebuild "%Configuration%"
 
-    # Upload the build artifacts
-    #- name: Upload build artifacts
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: artifact-SystemTrayClockInstaller
-    #    path: $env:Setup_Project_Folder_Path\$env:Configuration
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact-SystemTrayClockInstaller
+        path: $env:Setup_Project_Folder_Path\$env:Configuration
