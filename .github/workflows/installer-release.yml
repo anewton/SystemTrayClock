@@ -12,7 +12,7 @@ jobs:
       matrix:
         configuration: [Release]
 
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     env:
       Configuration: Release
@@ -46,9 +46,7 @@ jobs:
     - name: DisableOutOfProcBuild
       shell: cmd
       run: |
-        START /D "%VS_IDE_PATH%" "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe 
-        echo "done" > log.txt
-        more log.txt
+        START /D "%VS_IDE_PATH%" "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe > con
    
     # Build the installer
     #- name: Build the installer
