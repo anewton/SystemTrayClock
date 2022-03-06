@@ -41,7 +41,10 @@ jobs:
     - name: DisableOutOfProcBuild
       shell: cmd
       run: |
+        SET current_path="%CD%"
+        CD "%VS_IDE_PATH%""\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild"
         "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe
+        CD %current_path%
      
     # Build the installer
     - name: Build the installer
