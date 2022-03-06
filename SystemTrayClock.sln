@@ -7,6 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemTrayClock", "src\Syst
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SystemTrayClockInstaller", "src\SystemTrayClockInstaller\SystemTrayClockInstaller.vdproj", "{9E26DC4A-6642-4B52-A522-0B51AF0AD043}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C5FED0B3-94C0-4570-87DF-5E80ABAB339E}"
+	ProjectSection(SolutionItems) = preProject
+		buildInstaller.bat = buildInstaller.bat
+		buildMonitor.bat = buildMonitor.bat
+		outOfProcFix.bat = outOfProcFix.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
