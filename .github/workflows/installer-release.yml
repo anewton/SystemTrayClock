@@ -42,7 +42,10 @@ jobs:
       shell: cmd
       run: |
         SET current_path="%CD%"
+        ECHO %current_path%
         CD "%VS_IDE_PATH%""\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild"
+        SET new_path="%CD%"
+        ECHO %new_path%
         "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe
         CD %current_path%
      
