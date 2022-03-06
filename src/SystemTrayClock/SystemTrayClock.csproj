@@ -18,6 +18,8 @@
 	  <RepositoryUrl>https://github.com/anewton/SystemTrayClock</RepositoryUrl>
 	  <RepositoryType>git</RepositoryType>
 	  <AssemblyName>System Tray Clock</AssemblyName>
+	  <PlatformTarget>x86</PlatformTarget>
+	  <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
