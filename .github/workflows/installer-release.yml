@@ -47,7 +47,7 @@ jobs:
     - name: Build the installer
       shell: cmd
       run: |
-        START /D "%VS_IDE_PATH%" "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%"
+        START /D "%VS_IDE_PATH%" "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%" > con
 
     # Upload the build artifacts
     - name: Upload build artifacts
