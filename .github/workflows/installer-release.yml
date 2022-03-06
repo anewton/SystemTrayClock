@@ -46,14 +46,14 @@ jobs:
     - name: DisableOutOfProcBuild
       shell: cmd
       run: |
-        START /D "%VS_IDE_PATH%" "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe ^1^> log.txt ^2^>^&^1
+        START /D "%VS_IDE_PATH%" "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe > log.txt
         echo "$(<log.txt )"
    
     # Build the installer
     - name: Build the installer
       shell: cmd
       run: |
-        START /D "%VS_IDE_PATH%" "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%" ^1^> logbuild.txt ^2^>^&^1
+        START /D "%VS_IDE_PATH%" "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%" > logbuild.txt 
         echo "$(<logbuild.txt )"
 
     # Upload the build artifacts
