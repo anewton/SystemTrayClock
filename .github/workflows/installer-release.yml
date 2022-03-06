@@ -29,8 +29,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Install the .NET Core workload
-    - name: Install .NET Core
+    - name: Install .NET 6
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
@@ -38,22 +37,17 @@ jobs:
     - name: dotnet restore
       shell: cmd
       run: dotnet restore "%Project_Path%"
-        
-    # Build the installer
-    #- name: Build the installer
-    #  shell: cmd
-    #  run: |
-    #    "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%"
     
     - name: DisableOutOfProcBuild
       shell: cmd
       run: |
         START /D "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe 
-        
+     
+    # Build the installer
     - name: Build the installer
       shell: cmd
       run: |
-        cmd /c buildInstaller.bat "%VSBUILD_PATH%" "%Solution_Name%" "%Setup_Project_Path%" "%Configuration%"
+        START /D "%VS_IDE_PATH%" "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Build "%Configuration%"
 
     # Upload the build artifacts
     - name: Upload build artifacts
