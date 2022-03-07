@@ -43,6 +43,10 @@ jobs:
     #  with:
     #    arch: x86
     
+    - name: Update devenv Config
+      shell: cmd
+      run: devenv /updateconfiguration
+    
     - name: DisableOutOfProcBuild
       shell: cmd
       run: |
