@@ -45,7 +45,10 @@ jobs:
     
     - name: Update devenv Config
       shell: cmd
-      run: devenv /updateconfiguration
+      run: |
+        pushd "%VS_IDE_PATH%" 
+        devenv /updateconfiguration
+        popd
     
     - name: DisableOutOfProcBuild
       shell: cmd
