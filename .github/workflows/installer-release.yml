@@ -37,16 +37,6 @@ jobs:
     - name: dotnet restore
       shell: cmd
       run: dotnet restore "%Project_Path%"
-      
-    #- name: Set up Visual Studio shell
-    #  uses: egor-tensin/vs-shell@v2
-    #  with:
-    #    arch: x86
-    
-    - name: Update devenv Config
-      shell: cmd
-      run: |
-        "%VS_IDE_PATH%"\devenv.exe /updateconfiguration
     
     - name: DisableOutOfProcBuild
       shell: cmd
