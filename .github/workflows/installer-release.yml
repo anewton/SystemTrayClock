@@ -46,6 +46,7 @@ jobs:
         popd
         
     - name: Build the installer
+      timeout-minutes: 30
       shell: cmd
       run: |
         "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Rebuild "%Configuration%"
@@ -57,6 +58,7 @@ jobs:
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
+      if: failure()
       with:
         name: artifact-SystemTrayClockInstaller
         path: $env:Setup_Project_Folder_Path\$env:Configuration
