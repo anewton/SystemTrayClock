@@ -61,4 +61,4 @@ jobs:
       if: failure()
       with:
         name: artifact-SystemTrayClockInstaller
-        path: D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\$env:Configuration
+        path: D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release
