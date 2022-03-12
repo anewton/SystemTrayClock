@@ -45,15 +45,15 @@ jobs:
         "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe
         popd
         
-    #- name: Build the installer
-    #  shell: cmd
-    #  run: |
-    #    "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Rebuild "%Configuration%"
-        
     - name: Build the installer
       shell: cmd
       run: |
-        buildMonitor.bat "%VSBUILD_PATH%" "%Solution_Name%" "%Setup_Project_Path%" "%Configuration%"
+        "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Rebuild "%Configuration%"
+        
+    #- name: Build the installer
+    #  shell: cmd
+    #  run: |
+    #    buildMonitor.bat "%VSBUILD_PATH%" "%Solution_Name%" "%Setup_Project_Path%" "%Configuration%"
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
