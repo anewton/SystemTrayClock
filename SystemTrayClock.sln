@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C5FED0B3
 		buildInstaller.bat = buildInstaller.bat
 		buildMonitor.bat = buildMonitor.bat
 		outOfProcFix.bat = outOfProcFix.bat
+		version.txt = version.txt
 	EndProjectSection
 EndProject
 Global
