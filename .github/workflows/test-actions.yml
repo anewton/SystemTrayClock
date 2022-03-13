@@ -1,4 +1,4 @@
-name: System Tray Clock MSI Release Build
+name: test
 
 on: workflow_dispatch
 
