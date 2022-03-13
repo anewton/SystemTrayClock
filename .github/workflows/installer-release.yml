@@ -22,16 +22,13 @@ jobs:
       VSBUILD_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com
       VS_IDE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
 
-    steps:
-    - name: Get the tag name
-      run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-        
-    - name: Checkout
+    steps:        
+    - name: checkout
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
 
-    - name: Install .NET 6
+    - name: install .net 6
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
@@ -40,46 +37,46 @@ jobs:
       shell: cmd
       run: dotnet restore "%Project_Path%"
     
-    - name: DisableOutOfProcBuild
+    - name: disable out of process build for installer project
       shell: cmd
       run: |
         pushd "%VS_IDE_PATH%"
         "%VS_IDE_PATH%"\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe
         popd
         
-    - name: Build the installer
-      timeout-minutes: 30
+    - name: build
+      timeout-minutes: 15
       continue-on-error: true
       shell: cmd
       run: |
         "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Rebuild "%Configuration%"
         
-    - name: Upload build artifacts
+    - name: upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: SystemTrayClockInstaller
         path: D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release
         
-    - name: Zip build artifacts
+    - name: zip build artifacts
       run: |
         7z a -tzip D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release\SystemTrayClockInstaller.zip D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release\*.*
         
-    - name: release
+    - name: create release
       uses: actions/create-release@v1
       id: create_release
       with:
         draft: false
         prerelease: false
-        tag_name: ${{ env.TAG }}
-        release_name: ${{ env.TAG }}
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
         body_path: ReleaseNotes.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Upload Release Asset
+    - name: upload release
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release\SystemTrayClockInstaller.zip
