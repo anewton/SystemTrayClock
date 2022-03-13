@@ -3,8 +3,8 @@ name: System Tray Clock MSI Release Build
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -60,5 +60,27 @@ jobs:
       uses: actions/upload-artifact@v3
       if: failure()
       with:
-        name: artifact-SystemTrayClockInstaller
+        name: SystemTrayClockInstaller
         path: D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release
+        
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        body_path: ReleaseNotes.md
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./SystemTrayClockInstaller.zip
+        asset_name: SystemTrayClockInstaller.zip
+        asset_content_type: application/zip
