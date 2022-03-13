@@ -2,7 +2,6 @@ name: System Tray Clock MSI Release Build
 
 on:
   push:
-    branches: [ main ]
     tags:
       - 'v*'
 
@@ -41,8 +40,7 @@ jobs:
     - name: Get version tag
       id: version_tag
       run: |
-        [[ ! "$GITHUB_REF" =~ refs/tags ]] && exit
-        echo "::set-output name=version-tag::${GITHUB_REF#refs/tags/}"
+        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     
     - name: disable out of process build for installer project
       shell: cmd
@@ -74,8 +72,8 @@ jobs:
       with:
         draft: false
         prerelease: false
-        tag_name: ${{ steps.version_tag.outputs.version-tag }}
-        release_name: Release ${{ steps.version_tag.outputs.version-tag }}
+        tag_name: ${{ steps.version_tag.outputs.VERSION }}
+        release_name: Release ${{ steps.version_tag.outputs.VERSION }}
         body_path: ReleaseNotes.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
