@@ -1,0 +1,32 @@
+name: System Tray Clock MSI Release Build
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Release]
+
+    runs-on: windows-2022
+
+    env:
+      Configuration: Release
+      Solution_Name: SystemTrayClock.sln
+      Project_Path: src\SystemTrayClock\SystemTrayClock.csproj
+      Setup_Project_Path: src\SystemTrayClockInstaller\SystemTrayClockInstaller.vdproj
+      Setup_Project_Folder_Path: src\SystemTrayClockInstaller\
+      VSBUILD_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com
+      VS_IDE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
+
+    steps:        
+    - name: Get version tag
+      id: version_tag
+      run: |
+        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+    
+    - name: show version tag
+      shell: cmd
+      run: |
+        echo ${{ steps.version_tag.outputs.VERSION }}
+        
