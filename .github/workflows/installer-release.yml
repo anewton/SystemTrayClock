@@ -60,6 +60,10 @@ jobs:
         name: SystemTrayClockInstaller
         path: D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release
         
+    - name: Zip build artifacts
+      run: |
+        7z a -tzip D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release\SystemTrayClockInstaller.zip D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release\*.*
+        
     - name: release
       uses: actions/create-release@v1
       id: create_release
