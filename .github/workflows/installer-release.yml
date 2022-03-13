@@ -2,6 +2,7 @@ name: System Tray Clock MSI Release Build
 
 on:
   push:
+    branches: [ main ]
     tags:
       - '*'
 
