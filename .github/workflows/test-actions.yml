@@ -25,11 +25,16 @@ jobs:
       VS_IDE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
 
     steps:   
+    - name: checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        
     - name: read version
       id: read_version
       shell: cmd
       run: |
-        set /p VERSION=<version.txt
+        set /p VERSION=<D:\a\SystemTrayClock\SystemTrayClock\version.txt
         echo %VERSION%
         echo "::set-output name=VERSION::%VERSION%"
         
