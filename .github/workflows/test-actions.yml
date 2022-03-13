@@ -24,7 +24,15 @@ jobs:
       VSBUILD_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com
       VS_IDE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
 
-    steps:       
+    steps:   
+    - name: read version
+      id: read_version
+      shell: cmd
+      run: |
+        set /p VERSION=<version.txt
+        echo %VERSION%
+        echo "::set-output name=VERSION::%VERSION%"
+        
     - name: get source data
       id: branch_name
       run: |
@@ -40,4 +48,5 @@ jobs:
         echo ${{ steps.branch_name.outputs.SOURCE_NAME }}
         echo ${{ steps.branch_name.outputs.SOURCE_BRANCH }}
         echo ${{ steps.branch_name.outputs.SOURCE_TAG }}
+        echo ${{ steps.read_version.outputs.VERSION }}
         
