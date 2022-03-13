@@ -23,6 +23,9 @@ jobs:
       VS_IDE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
 
     steps:
+    - name: Get the tag name
+      run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+        
     - name: Checkout
       uses: actions/checkout@v2
       with:
@@ -63,8 +66,8 @@ jobs:
       with:
         draft: false
         prerelease: false
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
+        tag_name: ${{ env.TAG }}
+        release_name: ${{ env.TAG }}
         body_path: ReleaseNotes.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,6 +78,6 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./SystemTrayClockInstaller.zip
+        asset_path: D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release\SystemTrayClockInstaller.zip
         asset_name: SystemTrayClockInstaller.zip
         asset_content_type: application/zip
