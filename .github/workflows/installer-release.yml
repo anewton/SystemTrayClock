@@ -46,18 +46,13 @@ jobs:
         
     - name: Build the installer
       timeout-minutes: 30
+      continue-on-error: true
       shell: cmd
       run: |
         "%VSBUILD_PATH%" "%Solution_Name%" /Project "%Setup_Project_Path%" /Rebuild "%Configuration%"
         
-    #- name: Build the installer
-    #  shell: cmd
-    #  run: |
-    #    buildMonitor.bat "%VSBUILD_PATH%" "%Solution_Name%" "%Setup_Project_Path%" "%Configuration%"
-        
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
-      if: failure()
       with:
         name: SystemTrayClockInstaller
         path: D:\a\SystemTrayClock\SystemTrayClock\src\SystemTrayClockInstaller\Release
