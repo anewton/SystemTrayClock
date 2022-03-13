@@ -32,11 +32,9 @@ jobs:
         
     - name: read version
       id: read_version
-      shell: cmd
       run: |
-        set /p VERSION=<D:\a\SystemTrayClock\SystemTrayClock\version.txt
-        echo %VERSION%
-        $VERSION = %VERSION%
+        $VERSION = Get-Content D:\a\SystemTrayClock\SystemTrayClock\version.txt -Raw 
+        echo $VERSION
         echo "::set-output name=VERSION::$VERSION"
 
     - name: show source data
