@@ -37,11 +37,12 @@ jobs:
       shell: cmd
       run: dotnet restore "%Project_Path%"
       
-    - name: Get version tag
-      id: version_tag
+    - name: read version
+      id: read_version
       run: |
-        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-    
+        $VERSION = Get-Content D:\a\SystemTrayClock\SystemTrayClock\version.txt -Raw 
+        echo "::set-output name=VERSION::$VERSION"
+
     - name: disable out of process build for installer project
       shell: cmd
       run: |
@@ -72,8 +73,8 @@ jobs:
       with:
         draft: false
         prerelease: false
-        tag_name: ${{ steps.version_tag.outputs.VERSION }}
-        release_name: Release ${{ steps.version_tag.outputs.VERSION }}
+        tag_name: ${{ steps.read_version.outputs.VERSION }}
+        release_name: Release ${{ steps.read_version.outputs.VERSION }}
         body_path: ReleaseNotes.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
