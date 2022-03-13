@@ -22,7 +22,6 @@ jobs:
     steps:       
     - name: get source data
       id: branch_name
-      shell: cmd
       run: |
         $SOURCE_NAME = ${env:GITHUB_REF} -replace 'refs/\w+/', ''
         $SOURCE_BRANCH = ${env:GITHUB_REF} -replace 'refs/heads/', ''
