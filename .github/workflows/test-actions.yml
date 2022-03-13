@@ -20,13 +20,24 @@ jobs:
       VS_IDE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
 
     steps:       
-    - name: Get version tag
-      id: get_version
-      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-    
-    - name: show version tag
+    - name: get source data
+      id: branch_name
       shell: cmd
       run: |
-        echo on
-        echo ${{ steps.get_version.outputs.VERSION }}
+        $SOURCE_NAME = ${env:GITHUB_REF} -replace 'refs/\w+/', ''
+        $SOURCE_BRANCH = ${env:GITHUB_REF} -replace 'refs/heads/', ''
+        $SOURCE_TAG = ${env:GITHUB_REF} -replace 'refs/tags/', ''
+        echo "::set-env name=SOURCE_NAME::$SOURCE_NAME"
+        echo "::set-env name=SOURCE_BRANCH::$SOURCE_BRANCH"
+        echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
+        
+    - name: show source data
+      run: |
+        echo $SOURCE_NAME
+        echo $SOURCE_BRANCH
+        echo $SOURCE_TAG
+      env:
+        SOURCE_NAME: ${{ steps.branch_name.outputs.SOURCE_NAME }}
+        SOURCE_BRANCH: ${{ steps.branch_name.outputs.SOURCE_BRANCH }}
+        SOURCE_TAG: ${{ steps.branch_name.outputs.SOURCE_TAG }}
         
