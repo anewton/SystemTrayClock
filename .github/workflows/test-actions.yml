@@ -21,14 +21,12 @@ jobs:
 
     steps:       
     - name: Get version tag
-      id: version_tag
-      run: |
-        echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      id: get_version
+      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
     
     - name: show version tag
       shell: cmd
       run: |
         echo on
-        echo $RELEASE_VERSION
-        echo ${{ env.RELEASE_VERSION }}
+        echo ${{ steps.get_version.outputs.VERSION }}
         
